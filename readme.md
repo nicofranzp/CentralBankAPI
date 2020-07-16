@@ -12,7 +12,7 @@ The Central Bank of Chile (CBCh) provides and maintain a [public database](https
 3. Select the series you want to download
 
 ## Get the API username and password
-Follow the instructions [here](https://lmgtfy.com/?q=central+bank+of+chile+API) 
+Follow the instructions [here](https://si3.bcentral.cl/estadisticas/Principal1/web_services/index_EN.htm) 
 
 Get better acquainted with the database [here](https://lmgtfy.com/?q=central+bank+of+chile+API) (haha)
 
