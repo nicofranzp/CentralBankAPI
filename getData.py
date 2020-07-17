@@ -34,6 +34,3 @@ for i in list(Dta.keys()):
 	for j in list(name.keys()):
 		name[j.replace('.', '')] = name.pop(j)
 	name.to_csv(i+'_data.csv')
-
-
-
