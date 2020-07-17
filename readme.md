@@ -31,7 +31,7 @@ pw	="INPUT YOUR PASSWORD"
 
 ## How to identify the series you want to download
 
- The most up-to-date data catalog with the `Code` to get access trough the API can be found [here](https://si3.bcentral.cl/estadisticas/Principal1/Web_Services/Webservices/series_en.xls).  In this repo you can find a copy of it plus a couple of extra pages inside.  If you know what series you want to use just add a `1` in the column `use` (which I created), save the document and you're all good to go. In the third sheet, first cell, you will find the comma separated series you selected. This cell wil be read by the `Python` script to get the desired data.
+ The most up-to-date data catalog with the `Code` to get access trough the API can be found [here](https://si3.bcentral.cl/estadisticas/Principal1/Web_Services/Webservices/series_en.xls).  In this repo you can find a copy of it plus a couple of extra pages inside.  If you know what series you want to use just add a `1` in the column `use` (which is not in the original file), save the document and you're all good to go. In the third sheet, first cell, you will find the comma separated series you selected. This cell wil be read by the `Python` script to get the desired data.
  
  If you don't know what series you want and you want to see them first, the only way to match the online series to the ones in the Excel catalog is by copying the name of the Chapter, Table and Series.  
 
@@ -53,3 +53,5 @@ In the first image you can see where to find the chapter, table and series names
 </details> <p></p>
 
 Once you have a selection of the series inside the spreadsheet, you can run the `getData.py`, and, voila, you'll get the `csv` files for the diferent frequencies (i.e. `DAILY.csv`, `MONTHLY.csv`, `QUARTERLY.csv`, and `ANNUAL.csv`)
+
+If you want to crontribute to this project, just let me know. It woudl be nice to have the same routines for `R`, for example.
