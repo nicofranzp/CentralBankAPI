@@ -16,6 +16,9 @@ Follow the instructions [here](https://si3.bcentral.cl/estadisticas/Principal1/w
 
 Get better acquainted with the database [here](https://lmgtfy.com/?q=central+bank+of+chile+API) (haha)
 
+Once you have tour username and password, copy them into the credentials in `getData.py`
+
+
 ## Python
 
 [Let Me Google That For You](https://lmgtfy.com/?q=how+to+install+python+3), again.
