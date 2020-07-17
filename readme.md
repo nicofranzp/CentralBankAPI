@@ -28,6 +28,8 @@ Get better acquainted with the database [here](https://lmgtfy.com/?q=central+ban
 
 <details> <summary>Example</summary>
 
+Once you have a selection of the series inside the spreadsheet, you can run the `getData.py`, and, voila, you'll get the `csv` files for the diferent frequencies (i.e. `DAILY.csv`, `MONTHLY.csv`, `QUARTERLY.csv`, and `ANNUAL.csv`)
+
 In the first image you can see where to find the chapter, table and series names to find the `Code` in the catalog (second image)
 <center> 
 <p>
