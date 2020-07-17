@@ -11,7 +11,7 @@ from getseries import getSeries
 
 # Inputs for the API
 user	="INPUT YOUR USERNAME" 
-pw		="INPUT YOUR PASSWORD" 
+pw	="INPUT YOUR PASSWORD" 
 initD	="1900-01-01" 
 today	= date.today()
 endD	= today.strftime("%Y-%m-%d")
