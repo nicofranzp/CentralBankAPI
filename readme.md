@@ -54,4 +54,4 @@ In the first image you can see where to find the chapter, table and series names
 
 Once you have a selection of the series inside the spreadsheet, you can run the `getData.py`, and, voila, you'll get the `csv` files for the diferent frequencies (i.e. `DAILY.csv`, `MONTHLY.csv`, `QUARTERLY.csv`, and `ANNUAL.csv`)
 
-If you want to crontribute to this project, just let me know. It woudl be nice to have the same routines for `R`, for example.
+If you want to contribute to this project, just let me know. It would be nice to have the same routines for `R`, for example.
