@@ -14,8 +14,6 @@ The Central Bank of Chile (CBCh) provides and maintain a [public database](https
 ## Get the API username and password
 Follow the instructions [here](https://si3.bcentral.cl/estadisticas/Principal1/web_services/index_EN.htm) 
 
-Get better acquainted with the database [here](https://lmgtfy.com/?q=central+bank+of+chile+API) (haha)
-
 Once you have your username and password, copy them into the credentials in `getData.py` (lines 13 and 14)
 
 ``` python
@@ -26,8 +24,7 @@ pw	="INPUT YOUR PASSWORD"
 
 
 ## Python
-
-[Let Me Google That For You](https://lmgtfy.com/?q=how+to+install+python+3), again.
+Install Python and the required libraries. 
 
 ## How to identify the series you want to download
 
