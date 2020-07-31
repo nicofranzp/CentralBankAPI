@@ -2,7 +2,7 @@
 
 The Central Bank of Chile (CBCh) provides and maintain a [public database](https://si3.bcentral.cl/siete/EN). In order to access the data, users have to perform several steps/mouse-clicks to get the data in their computer. The only format in which the data can be downloaded directly from the database is `*.xls`. 
 
- To speed up the process and get comma separated values (`*.csv`) files, I provide a couple of `Python` routhines to speed up the process.  One of the major gains of this workflow is to avoid clicking and get version control systems to work with data-base changes (`csv` files differences can be tracked by Git, for example)
+ To speed up the process and get comma separated values (`*.csv`) files, I provide a `Python` routine and one excel spreadsheet to speed up the process.  One of the major gains of this workflow is to avoid clicking and get version control systems to work with data-base changes (`csv` files differences can be tracked by Git, for example)
 
 
 ## What do you need to make it work
@@ -24,11 +24,37 @@ pw	="INPUT YOUR PASSWORD"
 
 
 ## Python
-Install Python and the required libraries. 
+Install Python and the required libraries:
+
+- xlrd
+- pandas
+- datetime
+- os 
+- zeep
+- numpy
+- time
+- sys
+
+### Mac OS Python installation
+If you are a macOS user, you already have Python 2.7 out of the box. Nonetheless, I would recommend  you to install  `Xcode`, `Command Line Tools`, `homebrew`,  `pip` and, finally `Python 3`. You can follow these steps:
+1. Install `Xcode` from the app Store.
+2. Open your `Terminal.app` and type `xcode-select --install` to install the `Command Line Tools`
+3. To install `Homebrew` type in you terminal 
+   
+   ```
+   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+   ```
+   The scripts will explain the changes it will make and prompt you before it's done. More information on Homebrew [here](https://brew.sh)  
+4. Type in your terminal `brew install python`. This will take a couple of minutes and will automatically install `pip` pointing at your python for you
+5. Test your installation by typing `python3 --version`. You should get something like 
+   ``` 
+   Python 3.8.1
+   ```
+6. To install the `xlrd` library, for example,  type in the terminal `pip install xlrd`
 
 ## How to identify the series you want to download
 
- The most up-to-date data catalog with the `Code` to get access trough the API can be found [here](https://si3.bcentral.cl/estadisticas/Principal1/Web_Services/Webservices/series_en.xls).  In this repo you can find a copy of it plus a couple of extra pages inside.  If you know what series you want to use just add a `1` in the column `use` (which is not in the original file), save the document and you're all good to go. In the third sheet, first cell, you will find the comma separated series you selected. This cell wil be read by the `Python` script to get the desired data.
+ The most up-to-date data catalog with the `Code` to get access trough the API can be found [here](https://si3.bcentral.cl/estadisticas/Principal1/Web_Services/Webservices/series_en.xls).  In this repo you can find a copy of it plus a couple of extra pages inside.  If you know what series you want to use just add a `1` in the column `use` (which is not in the original file), save the document and you're all good to go. In the third sheet, first cell, you will find the comma separated series you selected. This cell wil be read by the `Python` script `getData.py` to get the desired data. Note that  `getData.py` calls the function `getSeries` which is provided by the Central Bank of Chile. I tweaked the original function to return the series in english and also to get the time aggregation of them (e.g. averages, sum, or last). There is no way, as far as I know to get the units. The `code` of the series provides some information, but not all of it (TODO: example of how to read the series). 
  
  If you don't know what series you want and you want to see them first, the only way to match the online series to the ones in the Excel catalog is by copying the name of the Chapter, Table and Series.  
 
