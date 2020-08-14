@@ -1,4 +1,4 @@
-# Import series from Central Bank of Chile 
+# Download series from Central Bank of Chile 
 import xlrd
 import pandas as pd
 from datetime import date

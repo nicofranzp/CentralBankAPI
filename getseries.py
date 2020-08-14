@@ -53,8 +53,8 @@ def getSeries(user,pw,fInic,fFin,series):
     
     #meta_series will collect data
     meta_series=pd.DataFrame()
-
-    #Se itera dentro de la lista series_freq para consultar las distintas frecuencias de interés:
+    
+    # Iteration to find frequencies
     for frequ in series_freq:#frequ=series_freq[0]
         for attempt in range(4):
             try:
@@ -73,63 +73,57 @@ def getSeries(user,pw,fInic,fFin,series):
                 break
             except:
                 print("Try number " + str(attempt) + ": the frequency " + str(frequ) + " was not found")
-                #En caso de error, se esperan 20 segundos antes de volver a consultar la serie
+                # If error, wait 20 secs
                 sleep(20)
         else:
             print("Frequency " + str(frequ) + " not found. aborting execution")
             sys.exit("ABORTING")
 
-    #Finalmente, se limpia el Dataframe obtenido para conservar sólo las series de interés:
+    # cleaning data_frame to get only the desired serirs
     meta_series=meta_series.loc[series]
     meta_series.columns=["englishTitle","frequency", "observed"]
     
-    #Creación del DataFrame values_df, que incluirá todas las series que se consultarán.
+    # values_df, will contain series to be downloaded.
     values_df=pd.DataFrame()
-    #Iteración por cada una de las series consultando los datos. Los valores obtenidos se agregan a values_df
+    # iteration for each series
     for serieee in series:
-        #Se genera un loop para hacer 10 intentos de consulta por serie. Si tiene éxito, continúa con la siguiente serie, si no tiene éxito, intenta nuevamente.
+        # the algorithm will try 4 times to download
         for attempt in range(4):
             try:
-                #Creación del objeto que contendrá el código de serie       
                 ArrayOfString = client.get_type('ns0:ArrayOfString')
                 value = ArrayOfString(serieee)
                 
-                #Se ejecuta la consulta utilizando los parámetros ingresados (usuario, password, fecha de inicio, fecha final y código de serie) y se asigna a la variable result
+                # Download the series
                 result = client.service.GetSeries(user,pw,fInic,fFin, value)
-                #Se omite la serie si no hay observaciones en el período solicitado
+                # Omitting variables without data
                 if result["Series"]["fameSeries"][0]["obs"]==[]:
                     print("The variable "+ str(serieee) + " does not have data for the selected period")
                     break
-                #Se limpia la información obtenida, dejando como nombre de fila el código de serie y, como columnas, las fechas en formato dd-mm-aaaa
+                # clean up
                 result = serialize_object(result["Series"]["fameSeries"][0]["obs"])
-                result=pd.DataFrame(result).T
-                result.columns=result.iloc[0,:]
-                result=result.drop(result.index[0:3],axis=0)
-                result.index=[serieee]
+                result = pd.DataFrame(result).T
+                result.columns = result.iloc[0,:]
+                result = result.drop(result.index[0:3],axis=0)
+                result.index = [serieee]
                 
-                #Se agrega la serie ordenada al DataFrame values_df
+                # adding the new serie (sorted) to values_df
                 
                 values_df=values_df.append(result,sort=True)
                 print("Series " + str(serieee) + " found. Adding")
                 break
             except:
                 print("Try number " + str(attempt) + ": the variable " + str(serieee) + " was not found")
-                #En caso de error, se esperan 20 segundos antes de volver a consultar la serie
+                # If error wait 20 seconds
                 sleep(20)
         else:
             print("Series " + str(serieee) + " not found. Omitting")
     
-    #Se guarda en new_col los nombres de las columnas de values_df
+    
     new_col=list(values_df.columns)
-    #Se ordenan las fechas de new_col para asegurar su disposición desde la más antigua a la más nueva
     new_col.sort(key = lambda date: dt.datetime.strptime(date, '%d-%m-%Y'))
-    #Se ordena el dataframe values_df con el orden descrito en la línea anterior
     values_df=values_df[new_col]
-    #Se unen los resultados de meta_series con values_df en final_dic
     final_dic=pd.merge(meta_series,values_df,left_index=True,right_index=True)
-    #Se separan las salidas para obtener un dataframe por frecuencia
     final_dic = dict(iter(final_dic.groupby('frequency')))
     final_dic.update((x, y.dropna(axis=1,how="all")) for x, y in final_dic.items())
     
-    #Se devuelve el resultado de final_dic
     return final_dic

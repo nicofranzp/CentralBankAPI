@@ -1,30 +1,21 @@
 # Dowload series from the Central Bank of Chile
-obs <- 100
-x <- rnorm(obs)
-y <- 2 * x + rnorm(obs)
-m <- lm(y ~ x)
-add <- function(var1, var2) {
-    var1 + var2
+library("xlsx")
+source("getseries.R")
+
+# Inputs for the API
+user	<- "INSERT YOU USERNAME"
+pw		<- "INSERT YOUR PASSWORD"
+initD	<- "1900-01-01"
+endD	<- Sys.Date()
+
+# Read series from the excel file
+seriesJoined = read.xlsx("series_en.xlsx", 3, header=FALSE)[1, 1]
+series <- unlist(strsplit(as.character(head(seriesJoined)), split = ","))
+
+# Request data to the Central Bank
+Data <- getseries(user, pw, initD, endD, series)
+
+# Export data into csv
+for (name in names(Data)){
+	write.csv(as.data.frame(t(as.matrix(Data[[name]]))), paste(toString(name), ".csv"))
 }
-
-plot(x, y)
-abline(v = 0, col = "gray")
-abline(h = 0, col = "gray")
-abline(coef(m))
-
-View(mtcars)
-
-lst <- list(
-    list(id = 0, rnorm(5)),
-    list(id = 1, rnorm(10))
-)
-View(lst)
-
-library(ggplot2)
-
-library(plotly)
-p <- ggplot(data = diamonds, aes(x = cut, fill = clarity))
-geom_bar(position = "dodge")
-ggplotly(p)
-
-shiny::runExample("01_hello")
