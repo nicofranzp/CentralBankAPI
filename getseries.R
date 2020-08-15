@@ -4,9 +4,6 @@ library(plyr)
 library(stringi)
 library(httr)
 
-# TODO: check the fields with respect the python code
-
-#Funcion para entrar el web service
 getseries <- function(user, password, firstDate, lastDate, lista_serie){
     lista_serie<-unique(lista_serie)
     lista_serie<-toupper(lista_serie)
@@ -18,14 +15,14 @@ getseries <- function(user, password, firstDate, lastDate, lista_serie){
     if (sum(!bool_right_ser)>=1){
         print(paste("The series ",paste(lista_serie[!bool_right_ser],collapse=", ")," do not exist. Please double check the codes",sep=""))
     }
-    lista_serie<-lista_serie[bool_right_ser]
-    FrequencyCode<- unique(stri_sub(lista_serie, -1))
+    lista_serie <- lista_serie[bool_right_ser]
+    FrequencyCode <- unique(stri_sub(lista_serie, -1))
     FrequencyCode <- gsub("A", "ANNUAL", FrequencyCode)
     FrequencyCode <- gsub("T","QUARTERLY", FrequencyCode)
     FrequencyCode <- gsub("M", "MONTHLY", FrequencyCode)
     FrequencyCode <- gsub("D","DAILY", FrequencyCode)
     dfFinal1 <- data.frame()
-    headerFields <-c('Content-Type' = "text/xml; charset=utf-8")
+    headerFields <- c('Content-Type' = "text/xml; charset=utf-8")
     for (Frec in FrequencyCode){
         body1 <- paste('<?xml version="1.0" encoding="utf-8"?>
                     <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
@@ -37,14 +34,14 @@ getseries <- function(user, password, firstDate, lastDate, lista_serie){
                     </SearchSeries>
                     </soap:Body>
                     </soap:Envelope>', sep = "")
-        for (intento1 in 1:4){
+        for (intento1 in 1:4) {
             tryCatch({
-                response1<-httr::POST(url = "https://si3.bcentral.cl/SieteWs/SieteWS.asmx",
-                                body= body1,
+                response1 <- httr::POST(url = "https://si3.bcentral.cl/SieteWs/SieteWS.asmx",
+                                body = body1,
                                 add_headers(headerFields))
-                response1<-content(response1)
-                test1<- xmlTreeParse(response1)[["doc"]]
-                xmltest<- xmlToList(test1[[1]][[1]][[1]][[1]])
+                response1 <- content(response1)
+                test1 <- xmlTreeParse(response1)[["doc"]]
+                xmltest <- xmlToList(test1[[1]][[1]][[1]][[1]])
                 if (xmltest$Codigo=="-1"){
                     error_gen/2
                 }
@@ -53,11 +50,11 @@ getseries <- function(user, password, firstDate, lastDate, lista_serie){
                 }
                 EnglishTitle <- unlist(lapply(xmltest$SeriesInfos,function(x){if (is.null(x$englishTitle)) {NA} else {x$englishTitle}}))
                 Frequency <- unlist(lapply(xmltest$SeriesInfos,function(x){if (is.null(x$frequencyCode)) {NA} else {x$frequencyCode}}))
-                # Observed <- unlist(lapply(xmltest$SeriesInfos,function(x){if (is.null(x$observed)) {NA} else {x$observed}}))
+                Observed <- unlist(lapply(xmltest$SeriesInfos,function(x){if (is.null(x$observed)) {NA} else {x$observed}}))
                 Series1 <- unlist(lapply(xmltest$SeriesInfos,function(x){if (is.null(x$seriesId)) {NA} else {x$seriesId}}))
-                df_aux1<- data.frame(EnglishTitle = EnglishTitle, Frequency=Frequency)
+                df_aux1<- data.frame(englishTitle = EnglishTitle, frequency=Frequency, observed = Observed)
                 rownames(df_aux1) <- Series1
-                valid_row1 <- intersect(rownames(df_aux1),lista_serie)
+                valid_row1 <- intersect(rownames(df_aux1), lista_serie)
                 df_aux1 <- df_aux1[valid_row1,]
                 dfFinal1 <- rbind(dfFinal1,df_aux1)
                 print(paste("Frequency ",Frec, " found. Adding",sep=""))
@@ -127,19 +124,19 @@ getseries <- function(user, password, firstDate, lastDate, lista_serie){
             }
     }
 
-    row_name<- unlist(row_name)
-    rownames(dfFinal) <-row_name
-    dfFinal[dfFinal=="NaN"]<- NA
-    dfFinal <- dfFinal[,order(as.Date(colnames(dfFinal),format="%d-%m-%Y"))]
-    rownames_inter<-intersect(rownames(dfFinal),rownames(dfFinal1))
-    dfList <- cbind(dfFinal1[rownames_inter,], dfFinal[rownames_inter,])
-    colsstr <- c(1, 2)
-    colsnum <- 3:ncol(dfList)
-    dfList[,colsstr] <- apply(dfList[,colsstr], 2, function(x) as.character(x))
-    dfList[,colsnum] <- apply(dfList[,colsnum], 2, function(x) 
+    row_name <- unlist(row_name)
+    rownames(dfFinal) <- row_name
+    dfFinal[dfFinal == "NaN"] <- NA
+    dfFinal <- dfFinal[, order(as.Date(colnames(dfFinal),format = "%d-%m-%Y"))]
+    rownames_inter<-intersect(rownames(dfFinal), rownames(dfFinal1))
+    dfList <- cbind(dfFinal1[rownames_inter, ], dfFinal[rownames_inter,])
+    colsstr <- c(1, 2, 3)
+    colsnum <- 4:ncol(dfList)
+    dfList[, colsstr] <- apply(dfList[,colsstr], 2, function(x) as.character(x))
+    dfList[,colsnum] <- apply(dfList[,colsnum], 2, function(x)
     as.numeric(x))
-    Encoding(dfList[,1])<-"UTF-8"
-    dfList<-split(dfList , f = dfList$Frequency)
-    dfList <- lapply(dfList,function(x){Filter(function(x)!all(is.na(x)), x)})
+    Encoding(dfList[, 1]) <- "UTF-8"
+    dfList <- split(dfList , f = dfList$frequency)
+    dfList <- lapply(dfList, function(x) {Filter(function(x)!all(is.na(x)), x)})
     return(dfList)
 }

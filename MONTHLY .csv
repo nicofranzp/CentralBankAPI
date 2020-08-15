@@ -1,6 +1,7 @@
 "","F074.IPC.VAR.Z.Z.C.M","F074.IPCSAE.VAR.Z.Z.C.M"
-"EnglishTitle","Historical Headline CPI, monthly variation","Historical IPCSAE, monthly variation"
-"Frequency","MONTHLY","MONTHLY"
+"englishTitle","Historical Headline CPI, monthly variation","Historical IPCSAE, monthly variation"
+"frequency","MONTHLY","MONTHLY"
+"observed","AVERAGED","AVERAGED"
 "01-03-1928"," 0",NA
 "01-04-1928"," 2",NA
 "01-05-1928","3.9",NA
