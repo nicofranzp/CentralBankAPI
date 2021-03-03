@@ -22,6 +22,7 @@ user	="INPUT YOUR USERNAME"
 pw	="INPUT YOUR PASSWORD" 
 ```
 
+If you plan to share your project through GitHub or GitLab, I recommend you to set the username and password as a secret artifact of you project.
 
 ## Python
 Install Python and the required libraries:
