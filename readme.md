@@ -2,7 +2,7 @@
 
 The Central Bank of Chile (CBCh) provides and maintain a [public database](https://si3.bcentral.cl/siete/EN). In order to access the data, users have to perform several steps/mouse-clicks to get the data in their computer. The only format in which the data can be downloaded directly from the database is `*.xls`. 
 
- To speed up the process and get comma separated values (`*.csv`) files, I provide a `Python` routine and one excel spreadsheet to speed up the process (important part of the code is borrowed from [here](https://si3.bcentral.cl/estadisticas/Principal1/web_services/index.htm)).  One of the major gains of this workflow is to avoid clicking and get version control systems to work with data-base changes (`csv` files differences can be tracked by Git, for example)
+ To speed up the process and get comma separated values (`*.csv`) files, I provide a `Python` and `R` routines and one excel spreadsheet to speed up the process (important part of the code is borrowed from [here](https://si3.bcentral.cl/estadisticas/Principal1/web_services/index.htm)).  One of the major gains of this workflow is to avoid clicking and get version control systems to work with data changes (`csv` files differences can be tracked by Git, for example). The `csv` file can be read by any statistical or mathematical software.
 
 
 ## What do you need to make it work
