@@ -22,7 +22,7 @@ user	="INPUT YOUR USERNAME"
 pw	="INPUT YOUR PASSWORD" 
 ```
 
-If you plan to share your project through GitHub or GitLab, I recommend you to set the username and password as a secret artifact of you project.
+If you plan to share your project through GitHub or GitLab, I recommend you to set the username and password as a secret artifact of you project. You could do that by following the intructions [here](https://www.freecodecamp.org/news/how-to-securely-store-api-keys-4ff3ea19ebda/)
 
 ## Python
 Install Python and the required libraries:
