@@ -1,3 +1,6 @@
+# THIS PROJECT WAS MIGRATED TO GITLAB
+[https://gitlab.com/nicofranzp/CentralBankAPI](https://gitlab.com/nicofranzp/CentralBankAPI)
+
 #  A quick way to download data using the Central Bank of Chile's API
 
 The Central Bank of Chile (CBCh) provides and maintain a [public database](https://si3.bcentral.cl/siete/EN). In order to access the data, users have to perform several steps/mouse-clicks to get the data in their computer. The only format in which the data can be downloaded directly from the database is `*.xls`. 
