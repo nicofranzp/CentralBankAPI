@@ -2,6 +2,8 @@
 import xlrd
 import pandas as pd
 from datetime import date
+from dotenv import load_dotenv 
+from pathlib import Path
 import os 
 # cd current file folder
 path = os.path.dirname(os.path.realpath(__file__))
@@ -10,8 +12,10 @@ print(path)
 from getseries import getSeries
 
 # Inputs for the API
-user	="INPUT YOUR USERNAME" 
-pw	="INPUT YOUR PASSWORD" 
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
+user =os.environ.get('CBAPIUSR')
+pw =os.environ.get('CBAPIPW')
 initD	="1900-01-01" 
 today	= date.today()
 endD	= today.strftime("%Y-%m-%d")
